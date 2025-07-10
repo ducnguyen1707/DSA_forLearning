@@ -11,7 +11,7 @@
 struct SinhVien{
    char MSSV[10];
    char HoTen[50];
-   float DiemLT, DiemTB1, DiemTB2;
+   float DiemLT, DiemTH1, DiemTH2;
 };
 
 // Khi bieu dien bang danh sach dac DanhSach, nguoi ta dung mot cau truc co 2 truong:
@@ -23,10 +23,12 @@ typedef struct {
 }DanhSach;
 
 
-void makenullList (DanhSach *pL) {
-	pL->n = 0; // n la so cuoi cung, tuong trung cho do dai cua List
+DanhSach dsRong() {
+	DanhSach L;
+	L.n = 0; // so phan tu cua danh sach bang 0
+	return L;
 }
-int emptyList (DanhSach L) { // dung de check do dai list
+int ktRong(DanhSach L) { // dung de check do dai list
 	return L.n ==0; // neu true thi se return ve 0
 }
 
@@ -52,20 +54,15 @@ int tim(char x[10], DanhSach L) {
 	return L.n +1;
 }
 
-//Logic:
-// neu vi tri laf 1 bien int thi ok, neu la chuoi input thi nhot nho vao bien
-//c
+// Ham xoa sinh vien co ma so x trong danh sach pL
 void xoaSinhVien(char x[10], DanhSach *pL) {
-	int temp = tim(x, *pL); // dat temp nhu 1 bien 
-	if(temp <1 || temp > pL->n) {
-		printf("Vi tri khong hop le");
-	}else if(emptyList(*pL)) {
-		printf("Danh sach rong!");
-	}else {
-		xoaTai(temp, pL);
-		}
-	}
+    int temp = tim(x, *pL); // tim vi tri sinh vien co ma so x
+    // Neu vi tri hop le thi xoa sinh vien o vi tri do
+    if (temp >= 1 && temp <= pL->n) {
+        xoaTai(temp, pL);
+    }
 }
+
 
 // Ham xoa phan tu tai vi tri p trong danh sach dac
 void xoaTai(int p, DanhSach *pL) {
@@ -78,3 +75,18 @@ void xoaTai(int p, DanhSach *pL) {
     pL->n--;
 }
 
+void hienthi(DanhSach L) {
+	for(int i= 0; i<L.n; i++) {
+		printf("%s - %s - %.2f - %.2f - %.2f - %.2f", L.A[i].MSSV,L.A[i].HoTen,L.A[i].DiemLT, L.A[i].DiemTH1, L.A[i].DiemTH2 );
+	}
+}
+
+
+void chenCuoi(struct SinhVien s, DanhSach *pL) {
+	if(pL->n <40) {   // Neu n >= 40 nghia la mang da day
+		pL->A[pL->n] =s;  // Gan sinh vien s vao vi tri cuoi danh sach
+		pL->n ++;
+	}else {
+		printf("Loi! Danh sach day!");
+	}
+}
